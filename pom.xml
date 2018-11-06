@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>Desertification-monitoring</groupId>
+    <artifactId>Desertification-monitoring</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+        <scala.version>2.11.8</scala.version>
+        <geotools.version>20-SNAPSHOT</geotools.version>
+        <scala.compat.version>2.11</scala.compat.version>
+        <geotrellis.version>2.0.0</geotrellis.version>
+        <spark.version>2.2.0</spark.version>
+        <kafka.version>0.10.2.0</kafka.version>
+        <scopes.provided>provided</scopes.provided>
+    </properties>
+
+    <profiles>
+        <profile>
+            <!-- IDE builds -->
+            <id>IDE</id>
+            <properties>
+                <scopes.provided>compile</scopes.provided>
+            </properties>
+            <!-- Enable in IntelliJ IDEA : View -> Tool Windows -> Maven Projects : Profiles -> IDE -->
+        </profile>
+    </profiles>
+
+    <!-- see: http://stackoverflow.com/questions/16225573/why-cant-i-resolve-the-dependencies-for-geotools-maven-quickstart -->
+    <repositories>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>osgeo</id>
+            <name>Open Source Geospatial Foundation Repository</name>
+            <url>http://download.osgeo.org/webdav/geotools/</url>
+        </repository>
+        <repository> <!--Add the snapshot repository here-->
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>opengeo</id>
+            <name>OpenGeo Maven Repository</name>
+            <url>http://repo.opengeo.org</url>
+        </repository>
+        <repository> <!--Add the snapshot repository here-->
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>repo.locationtech.org</id>
+            <name>LocationTech Maven Repository</name>
+            <url>https://repo.locationtech.org/content/repositories/releases/</url>
+        </repository>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net repository</name>
+            <url>http://download.java.net/maven/2</url>
+        </repository>
+        <repository>
+            <id>osgeo</id>
+            <name>Open Source Geospatial Foundation Repository</name>
+            <url>http://download.osgeo.org/webdav/geotools/</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>boundless</id>
+            <name>Boundless Maven Repository</name>
+            <url>http://repo.boundlessgeo.com/main</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+
+        <!-- ==== Shapeless ========================== -->
+        <!--dependency>
+          <groupId>com.chuusai</groupId>
+          <artifactId>shapeless_${scala.compat.version}</artifactId>
+          <version>1.2.4</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>com.chuusai</groupId>
+            <artifactId>shapeless_${scala.compat.version}</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <!-- ==== GEOTRELLIS ========================== -->
+        <dependency>
+            <groupId>org.locationtech.geotrellis</groupId>
+            <artifactId>geotrellis-spark_${scala.compat.version}</artifactId>
+            <version>${geotrellis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.geotrellis</groupId>
+            <artifactId>geotrellis-spark-etl_${scala.compat.version}</artifactId>
+            <version>${geotrellis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.rasterframes</groupId>
+            <artifactId>rasterframes_2.11</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.rasterframes</groupId>
+            <artifactId>rasterframes-datasource_2.11</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.rasterframes</groupId>
+            <artifactId>rasterframes-experimental_2.11</artifactId>
+            <version>0.7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-sql_2.11</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+
+        <!--dependency>
+          <groupId>org.locationtech.geotrellis</groupId>
+          <artifactId>geotrellis-util_${scala.compat.version}</artifactId>
+          <version>${geotrellis.version}</version>
+        </dependency-->
+
+        <!--dependency>
+          <groupId>org.locationtech.geotrellis</groupId>
+          <artifactId>geotrellis-raster_${scala.compat.version}</artifactId>
+          <version>${geotrellis.version}</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>org.locationtech.geotrellis</groupId>
+            <artifactId>geotrellis-vector_${scala.compat.version}</artifactId>
+            <version>${geotrellis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.geotrellis</groupId>
+            <artifactId>geotrellis-shapefile_${scala.compat.version}</artifactId>
+            <version>${geotrellis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.locationtech.geotrellis</groupId>
+            <artifactId>geotrellis-proj4_${scala.compat.version}</artifactId>
+            <version>${geotrellis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-epsg-hsql</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.geotools</groupId>
+            <artifactId>gt-swing</artifactId>
+            <version>${geotools.version}</version>
+        </dependency>
+
+        <!--dependency>
+          <groupId>org.locationtech.geotrellis</groupId>
+          <artifactId>geotrellis-accumulo_${scala.compat.version}</artifactId>
+          <version>${geotrellis.version}</version>
+        </dependency-->
+
+        <!--dependency>
+          <groupId>com.azavea.geotrellis</groupId>
+          <artifactId>geotrellis-gdal_${scala.compat.version}</artifactId>
+          <version>0.10.0-M1</version>
+        </dependency-->
+
+        <!--dependency>
+          <groupId>org.locationtech.geotrellis</groupId>
+          <artifactId>geotrellis-geotools_${scala.compat.version}</artifactId>
+          <version>${geotrellis.version}</version>
+        </dependency-->
+
+        <!-- ==== WEB FRONTEND ========================== -->
+
+        <!--dependency>
+          <groupId>io.spray</groupId>
+          <artifactId>spray-routing_${scala.compat.version}</artifactId>
+          <version>1.3.3</version>
+        </dependency-->
+
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-routing-shapeless2_${scala.compat.version}</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.spray</groupId>
+            <artifactId>spray-can_${scala.compat.version}</artifactId>
+            <version>1.3.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.typesafe.akka</groupId>
+            <artifactId>akka-actor_${scala.compat.version}</artifactId>
+            <version>2.4.16</version>
+        </dependency>
+
+        <!--dependency>
+           <groupId>com.typesafe.akka</groupId>
+           <artifactId>akka-slf4j_${scala.compat.version}</artifactId>
+           <version>2.4.17</version>
+         </dependency-->
+
+        <!--dependency>
+          <groupId>com.typesafe.akka</groupId>
+          <artifactId>akka-http_${scala.compat.version}</artifactId>
+          <version>10.0.6</version>
+        </dependency-->
+
+        <!-- ==== SPARK ========================== -->
+
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-core_${scala.compat.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${scopes.provided}</scope>
+        </dependency>
+
+        <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-mllib_${scala.compat.version}</artifactId>
+        <version>${spark.version}</version>
+    </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-sql -->
+        <!--<dependency>-->
+            <!--<groupId>org.apache.spark</groupId>-->
+            <!--<artifactId>spark-sql_${scala.compat.version}</artifactId>-->
+            <!--<version>${spark.version}</version>-->
+            <!--<scope>${scopes.provided}</scope>-->
+        <!--</dependency>-->
+
+        <!--dependency>
+          <groupId>org.apache.spark</groupId>
+          <artifactId>spark-streaming-kafka_${scala.compat.version}</artifactId>
+          <version>${spark.version}</version>
+          <scope>${scopes.provided}</scope>
+        </dependency-->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-8_2.11 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-8_${scala.compat.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${scopes.provided}</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-streaming-kafka-0-10_2.11 -->
+        <dependency>
+            <groupId>org.apache.spark</groupId>
+            <artifactId>spark-streaming-kafka-0-10_${scala.compat.version}</artifactId>
+            <version>${spark.version}</version>
+            <scope>${scopes.provided}</scope>
+        </dependency>
+
+        <!-- ==== SPARK CSV ====================== -->
+
+        <!-- https://mvnrepository.com/artifact/com.databricks/spark-csv_2.10 -->
+        <!--<dependency>
+          <groupId>com.databricks</groupId>
+          <artifactId>spark-csv_${scala.compat.version}</artifactId>
+          <version>1.5.0</version>
+        </dependency> -->
+
+        <!-- ==== JSON ====================== -->
+
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-native_${scala.compat.version}</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-core_${scala.compat.version}</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json4s</groupId>
+            <artifactId>json4s-ext_${scala.compat.version}</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+
+        <!-- ==== JTS Topology Suite ========================== -->
+
+        <dependency>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts</artifactId>
+            <version>1.13</version>
+        </dependency>
+
+        <!-- ==== Scala Logging Slf4j ========================== -->
+
+        <!--dependency>
+          <groupId>com.typesafe.scala-logging</groupId>
+          <artifactId>scala-logging-slf4j_${scala.compat.version}</artifactId>
+          <version>2.1.2</version>
+        </dependency-->
+
+        <!--dependency>
+          <groupId>com.typesafe.scala-logging</groupId>
+          <artifactId>scala-logging_${scala.compat.version}</artifactId>
+          <version>3.5.0</version>
+        </dependency-->
+
+        <!--dependency>
+          <groupId>com.typesafe.akka</groupId>
+          <artifactId>akka-slf4j_${scala.compat.version}</artifactId>
+          <version>2.4.16</version>
+        </dependency-->
+
+        <!-- ==== Kafka ========================== -->
+
+        <!-- https://mvnrepository.com/artifact/org.apache.kafka/kafka_2.11 -->
+        <!--dependency>
+          <groupId>org.apache.kafka</groupId>
+          <artifactId>kafka_${scala.compat.version}</artifactId>
+          <version>${kafka.version}</version>
+        </dependency-->
+
+        <!-- ==== Testing ========================== -->
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2-core_${scala.compat.version}</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.specs2</groupId>
+            <artifactId>specs2-junit_${scala.compat.version}</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/scala</sourceDirectory>
+        <testSourceDirectory>src/test/scala</testSourceDirectory>
+        <plugins>
+            <plugin>
+                <!-- see http://davidb.github.com/scala-maven-plugin -->
+                <groupId>Desertification-monitoring</groupId>
+                <artifactId>Desertification-monitoring</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>testCompile</goal>
+                        </goals>
+                        <configuration>
+                            <args>
+                                <arg>-dependencyfile</arg>
+                                <arg>${project.build.directory}/.scala_dependencies</arg>
+                            </args>
+                            <archive>
+                                <manifest>
+                                    <mainClass>chd.raster.cluster.Cluster</mainClass>
+                                </manifest>
+                            </archive>
+                        </configuration>
+                    </execution>
+                </executions>
+                <!-- see https://github.com/non/kind-projector -->
+                <configuration>
+                    <compilerPlugins>
+                        <compilerPlugin>
+                            <groupId>org.spire-math</groupId>
+                            <artifactId>kind-projector_2.11</artifactId>
+                            <version>0.9.6</version>
+                        </compilerPlugin>
+                    </compilerPlugins>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <useFile>false</useFile>
+                    <disableXmlReport>true</disableXmlReport>
+                    <!-- If you have classpath issue like NoDefClassError,... -->
+                    <!-- useManifestOnlyJar>false</useManifestOnlyJar -->
+                    <includes>
+                        <include>**/*Test.*</include>
+                        <include>**/*Suite.*</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <!--finalname>HelloW</finalname-->
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>reference.conf</resource>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>7</source>
+                    <target>7</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>

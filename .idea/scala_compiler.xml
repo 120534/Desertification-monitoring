@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ScalaCompilerConfiguration">
+    <profile name="Maven 1" modules="Desertification-monitoring">
+      <parameters>
+        <parameter value="-dependencyfile" />
+        <parameter value="E:\project\Desertification-monitoring\target/.scala_dependencies" />
+      </parameters>
+      <plugins>
+        <plugin path="C:\Users\17491\.m2\repository\org\spire-math\kind-projector_2.11\0.9.6\kind-projector_2.11-0.9.6.jar" />
+      </plugins>
+    </profile>
+  </component>
+</project>

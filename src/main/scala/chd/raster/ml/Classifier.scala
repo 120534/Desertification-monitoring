@@ -1,4 +1,4 @@
-package chd.raster.cluster
+package chd.raster.ml
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -18,9 +18,10 @@ object Classifier {
      * @return _root_.scala.collection.mutable.ArrayBuffer[Double]
      */
   def jenks(arr:Array[Double],nbClass:Int) = {
-    
+
     if (arr.length == 0) throw new Exception("传入数组为空")
     if (nbClass <= 1) throw new Exception("分类数必须为大于1的正数")
+    //传入的数组需要进行排序
     val dataList = arr.sorted
     val mat1 = ArrayBuffer[ArrayBuffer[Double]]()
     for (x <- 0 until dataList.length + 1) {
@@ -102,4 +103,5 @@ object Classifier {
     val bounds = kclass
     kclass
   }
+
 }

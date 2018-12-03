@@ -60,16 +60,6 @@
             <url>https://repo.locationtech.org/content/repositories/releases/</url>
         </repository>
         <repository>
-            <id>maven2-repository.dev.java.net</id>
-            <name>Java.net repository</name>
-            <url>http://download.java.net/maven/2</url>
-        </repository>
-        <repository>
-            <id>osgeo</id>
-            <name>Open Source Geospatial Foundation Repository</name>
-            <url>http://download.osgeo.org/webdav/geotools/</url>
-        </repository>
-        <repository>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -235,14 +225,18 @@
           <artifactId>akka-http_${scala.compat.version}</artifactId>
           <version>10.0.6</version>
         </dependency-->
-
+        <!--TO FIX NoSuchMethodError: org.apache.http.conn.ssl.SSLConnectionSocketFactory-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.2</version>
+        </dependency>
         <!-- ==== SPARK ========================== -->
 
         <dependency>
             <groupId>org.apache.spark</groupId>
             <artifactId>spark-core_${scala.compat.version}</artifactId>
             <version>${spark.version}</version>
-            <scope>${scopes.provided}</scope>
         </dependency>
 
         <dependency>
@@ -375,9 +369,9 @@
         <plugins>
             <plugin>
                 <!-- see http://davidb.github.com/scala-maven-plugin -->
-                <groupId>Desertification-monitoring</groupId>
-                <artifactId>Desertification-monitoring</artifactId>
-                <version>1.0-SNAPSHOT</version>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -389,11 +383,6 @@
                                 <arg>-dependencyfile</arg>
                                 <arg>${project.build.directory}/.scala_dependencies</arg>
                             </args>
-                            <archive>
-                                <manifest>
-                                    <mainClass>chd.raster.cluster.Cluster</mainClass>
-                                </manifest>
-                            </archive>
                         </configuration>
                     </execution>
                 </executions>
@@ -463,7 +452,6 @@
                     <target>7</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

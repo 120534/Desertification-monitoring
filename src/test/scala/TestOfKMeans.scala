@@ -1,6 +1,5 @@
 import astraea.spark.rasterframes._
 import astraea.spark.rasterframes.ml.TileExploder
-import chd.raster.cluster.Cluster.getClass
 import geotrellis.raster.io.geotiff.SinglebandGeoTiff
 import geotrellis.raster._
 import geotrellis.raster.render._

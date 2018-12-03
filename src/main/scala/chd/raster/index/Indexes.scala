@@ -54,7 +54,7 @@ object Indexes {
     /**
      * description: 对得到的指数进行归一化处理，Geotrellis也提供了 geotrellis.raster.Tile.normalize方法
      * created time:  2018/11/5
-     *
+     *  内存溢出报错，需要进行重写。
      *  params [tile]
      * @return _root_.geotrellis.raster.Tile
      */
@@ -102,16 +102,48 @@ object Indexes {
     (red - blue)/(red + blue + green)
   }
 
-    /**
-     * description:
-     * created time:  2018/11/5
-     *
-     *  params [ndvi, ndviSoil, ndviVeg]
-     * @return Unit
-     */
-  def getFVC(ndvi:Tile,ndviSoil:Tile,ndviVeg:Tile): Unit ={
+/*
+  * 计算FVC有两种方法：
+  *   第一种是当区域内可以近似取VFCmax=100%，VFCmin=0%。
+  * VFC = (NDVI - NDVImin)/ ( NDVImax - NDVImin)
+  * NDVImax 和NDVImin分别为区域内最大和最小的NDVI值。由于不可避免存在噪声，
+  * NDVImax 和NDVImin一般取一定置信度范围内的最大值与最小值，置信度的取值主要根据图像实际情况来定。
+  *
+  *   第二种是当区域内不能近似取VFCmax=100%，VFCmin=0%
+  *有实测数据的情况下，取实测数据中的植被覆盖度的最大值和最小值作为VFCmax和 VFCmin，
+  * 这两个实测数据对应图像的NDVI作为NDVImax 和NDVImin。
+  *当没有实测数据的情况下，取一定置信度范围内的NDVImax 和NDVImin。VFCmax和 VFCmin根据经验估算。
+  *
+ */
+
+  /**
+    * description:第一种方法
+    * created time:  2018/11/30
+    *
+    *  params [ndvi]
+    * @return _root_.geotrellis.raster.Tile
+    */
+  def getFVC(ndvi:Tile):Tile={
+    val quantile = ndvi.histogram.quantileBreaks(20)
+    val ndviSoil = quantile(1)
+    val ndviVeg = quantile(quantile.length - 2)
+
+    println("ndviSoil: " + ndviSoil + ", ndviVeg: "+ ndviVeg)
+    getFVC(ndvi, ndviSoil, ndviVeg)
+
+  }
+
+/**
+ * description:第二种方法
+ * created time:  2018/11/30
+ *
+ *  params [ndvi, ndviSoil, ndviVeg]
+ * @return _root_.geotrellis.raster.Tile
+ */
+  def getFVC(ndvi:Tile,ndviSoil:Double,ndviVeg:Double): Tile ={
     (ndvi - ndviSoil) / (ndviVeg - ndviSoil)
     //FVC = (NDVI-NDVIsoil)/(NDVIveg-NDVIsoil)
   }
+
 }
 
